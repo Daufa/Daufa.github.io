@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agent Supervisor: How It Works</title>
+<meta name="description" content="A workflow demo of Franklyn Daufa’s Agent Supervisor, coordinating Claude Code and Codex through implementation and review.">
+<link rel="canonical" href="https://daufa.github.io/agent-supervisor/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Agent Supervisor: How It Works">
+<meta property="og:description" content="Watch how Claude Code and Codex coordinate through a Python supervisor.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daufa.github.io/agent-supervisor/">
+<meta property="og:image" content="https://daufa.github.io/social-preview.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.3.5/Tone.js"></script>
+<style>
+  :root {
+    --ink: #242820;
+    --paper: #f5f4ef;
+    --stage: #1b2016;
+    --stage-2: #10130d;
+    --muted: #a7b09a;
+    --line: #38402f;
+    --lime: #d9f279;
+    --accent: #8fbf5e;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--stage-2); }
+  body {
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    color: var(--paper);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page { width: 100%; max-width: 1100px; padding: 24px; }
+
+  .stage-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: radial-gradient(120% 140% at 15% 10%, var(--stage) 0%, var(--stage-2) 62%);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .grain {
+    position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  .scene {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+    padding: clamp(24px, 6vw, 72px);
+    opacity: 0;
+    transition: opacity .6s ease;
+    pointer-events: none;
+  }
+  .scene.active { opacity: 1; pointer-events: auto; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(9px, 1.1vw, 13px);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: clamp(10px, 1.6vw, 18px);
+  }
+  h1.title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(34px, 7vw, 76px);
+    line-height: 1.02;
+    margin: 0;
+    letter-spacing: -.01em;
+  }
+  h2.heading {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(26px, 5vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 clamp(14px, 2.2vw, 26px);
+    color: var(--lime);
+  }
+  p.body-text {
+    font-size: clamp(14px, 2vw, 22px);
+    line-height: 1.55;
+    color: var(--paper);
+    max-width: 720px;
+    margin: 0 0 clamp(8px, 1.4vw, 14px);
+  }
+  p.sub {
+    font-size: clamp(13px, 1.8vw, 20px);
+    color: var(--muted);
+    margin: clamp(10px, 1.8vw, 18px) 0 0;
+  }
+  .closing-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(11px, 1.4vw, 15px);
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+
+  /* Scene 4: workflow diagram */
+  .flow {
+    display: flex; flex-direction: column; gap: clamp(6px, 1vw, 10px);
+    width: 100%; max-width: 640px;
+  }
+  .flow-node {
+    display: flex; align-items: center; gap: clamp(10px, 1.6vw, 16px);
+    opacity: 0; transform: translateX(-10px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .flow-node.show { opacity: 1; transform: translateX(0); }
+  .flow-node .idx {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(10px, 1.2vw, 13px);
+    color: var(--stage-2);
+    background: var(--lime);
+    width: clamp(20px, 2.2vw, 28px); height: clamp(20px, 2.2vw, 28px);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .flow-node .label {
+    font-size: clamp(13px, 1.9vw, 19px);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: clamp(6px, 1vw, 10px);
+    width: 100%;
+  }
+  .flow-node.final .label { color: var(--lime); border-color: var(--lime); }
+
+  /* progress + controls */
+  .controls {
+    display: flex; align-items: center; gap: 14px; margin-top: 14px;
+  }
+  .progress-track {
+    flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); }
+  button.ctrl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: .04em;
+    background: transparent; border: 1px solid var(--line); color: var(--paper);
+    padding: 7px 14px; border-radius: 4px; cursor: pointer;
+  }
+  button.ctrl:hover { border-color: var(--accent); color: var(--accent); }
+  .time {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); min-width: 44px; text-align: right;
+  }
+  .demo-nav { display:flex; justify-content:space-between; gap:16px; margin-bottom:18px; font-size:14px; }
+  a { color:var(--lime); text-underline-offset:4px; }
+  a:focus-visible, button:focus-visible { outline:2px solid var(--lime); outline-offset:4px; }
+  .scene { visibility:hidden; }
+  .scene.active { visibility:visible; }
+  @media(max-width:700px) {
+    .page { padding:16px; }
+    .stage-wrap { aspect-ratio:auto; min-height:620px; }
+    .scene { padding:24px; }
+    .controls { flex-wrap:wrap; gap:10px; }
+    .progress-track { flex-basis:65%; }
+  }
+  @media(prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none!important; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <nav class="demo-nav" aria-label="Demo links"><a href="../#projects">← Portfolio</a><a href="https://github.com/Daufa/agent-supervisor" target="_blank" rel="noopener">View on GitHub →</a></nav>
+  <div class="stage-wrap" id="stage">
+    <div class="grain"></div>
+
+    <div class="scene" data-scene="0">
+      <div class="eyebrow">Independent Project</div>
+      <h1 class="title">Agent Supervisor</h1>
+      <p class="sub">Coordinating AI coding agents so I don't have to.</p>
+      <p class="closing-name" style="margin-top:clamp(14px,2vw,20px);">Experimental alpha &nbsp;·&nbsp; built and tested on macOS</p>
+    </div>
+
+    <div class="scene" data-scene="1">
+      <div class="eyebrow">The Problem</div>
+      <h2 class="heading">Two agents, no coordination.</h2>
+      <p class="body-text">Using two coding agents together meant copying responses between terminals by hand. Asking one to check the other's work. Losing track of what was actually tested.</p>
+    </div>
+
+    <div class="scene" data-scene="2">
+      <div class="eyebrow">What It Does</div>
+      <h2 class="heading">It automates the handoff.</h2>
+      <p class="body-text">Agent Supervisor starts an agent on an explicit task, validates its response, records the result, and hands the work to its peer, with clear stopping conditions built in.</p>
+    </div>
+
+    <div class="scene" data-scene="3">
+      <div class="eyebrow">How It Works</div>
+      <p class="body-text" style="margin-bottom:clamp(14px,2vw,20px);">It's been running against my LLM Council project, the workspace that surfaced the original coordination problem.</p>
+      <div class="flow" id="flow">
+        <div class="flow-node"><span class="idx">1</span><span class="label">A task on LLM Council: an explicit, scoped ask</span></div>
+        <div class="flow-node"><span class="idx">2</span><span class="label">The Python supervisor takes the task and the workspace</span></div>
+        <div class="flow-node"><span class="idx">3</span><span class="label">Claude Code makes the change</span></div>
+        <div class="flow-node"><span class="idx">4</span><span class="label">Posts a validated JSON handoff to the shared log</span></div>
+        <div class="flow-node"><span class="idx">5</span><span class="label">Codex reviews the change and runs the tests</span></div>
+        <div class="flow-node"><span class="idx">6</span><span class="label">Claude verifies the unchanged result</span></div>
+        <div class="flow-node final"><span class="idx">7</span><span class="label">Mutual completion, or a bounded stop</span></div>
+      </div>
+    </div>
+
+    <div class="scene" data-scene="4">
+      <div class="eyebrow">Built With</div>
+      <h2 class="heading">Just the Python standard library.</h2>
+      <p class="body-text">No third-party open source packages, so nothing extra to license.</p>
+      <p class="body-text">It runs two existing developer tools, the Claude Code CLI and the Codex CLI, as separate processes. Their source code isn't part of this project.</p>
+      <p class="body-text">An independent project. Not affiliated with Anthropic or OpenAI.</p>
+    </div>
+
+    <div class="scene" data-scene="5">
+      <div class="eyebrow">Verified Before Trusted</div>
+      <h2 class="heading">Tested offline. Run live.</h2>
+      <p class="body-text">It's been checked with offline tests and a full live run end to end. The specific numbers and trial history are documented at github.com/Daufa/agent-supervisor.</p>
+    </div>
+
+    <div class="scene" data-scene="6">
+      <h1 class="title" style="font-size:clamp(28px,5.5vw,56px)">Agent Supervisor</h1>
+      <p class="closing-name">Franklyn Daufa &nbsp;·&nbsp; franklynjdaufa@gmail.com</p>
+      <p class="closing-name">github.com/Daufa/agent-supervisor</p>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button class="ctrl" id="playBtn">Pause</button>
+    <button class="ctrl" id="replayBtn">Replay</button>
+    <button class="ctrl" id="soundBtn">Sound: Off</button>
+    <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+    <div class="time" id="timeLabel">0:00</div>
+  </div>
+</main>
+
+<script>
+(function () {
+  // Scene boundaries in seconds: [start, end]
+  var scenes = [
+    [0, 8],
+    [8, 24],
+    [24, 38],
+    [38, 80],
+    [80, 104],
+    [104, 114],
+    [114, 126]
+  ];
+  var totalDuration = scenes[scenes.length - 1][1];
+
+  // Flow node reveal times (seconds from page start), within scene 3 (38-82)
+  var flowRevealTimes = [40, 44.5, 49, 53.5, 58, 62.5, 67];
+
+  var sceneEls = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var flowNodes = Array.prototype.slice.call(document.querySelectorAll('.flow-node'));
+  var fill = document.getElementById('fill');
+  var timeLabel = document.getElementById('timeLabel');
+  var playBtn = document.getElementById('playBtn');
+  var replayBtn = document.getElementById('replayBtn');
+  var soundBtn = document.getElementById('soundBtn');
+
+  // ---- Ambient background music (Tone.js, procedural, no samples) ----
+  var audioBuilt = false;
+  var audioOn = false;
+  var chordIndex = 0;
+  var pad, bass, reverb, filter;
+
+  var chords = [
+    ['A3', 'C4', 'E4', 'G4'],
+    ['F3', 'A3', 'C4', 'E4'],
+    ['C3', 'E3', 'G3', 'B3'],
+    ['G3', 'B3', 'D4', 'E4']
+  ];
+  var bassNotes = ['A2', 'F2', 'C2', 'G2'];
+
+  function buildAudio() {
+    if (audioBuilt) return;
+    reverb = new Tone.Reverb({ decay: 9, wet: 0.55, preDelay: 0.05 }).toDestination();
+    filter = new Tone.Filter({ frequency: 1100, type: 'lowpass', rolloff: -12 }).connect(reverb);
+    pad = new Tone.PolySynth(Tone.Synth, {
+      oscillator: { type: 'triangle' },
+      envelope: { attack: 3, decay: 1.5, sustain: 0.7, release: 6 }
+    }).connect(filter);
+    pad.volume.value = -17;
+    bass = new Tone.Synth({
+      oscillator: { type: 'sine' },
+      envelope: { attack: 2.5, decay: 1, sustain: 0.9, release: 6 }
+    }).connect(filter);
+    bass.volume.value = -20;
+
+    Tone.Transport.scheduleRepeat(function (time) {
+      var chord = chords[chordIndex % chords.length];
+      var root = bassNotes[chordIndex % bassNotes.length];
+      pad.triggerAttackRelease(chord, 7.5, time);
+      bass.triggerAttackRelease(root, 7.5, time);
+      chordIndex++;
+    }, 8);
+
+    audioBuilt = true;
+  }
+
+  function startMusic() {
+    if (!audioBuilt) buildAudio();
+    if (Tone.Transport.state !== 'started') Tone.Transport.start();
+  }
+
+  function stopMusic() {
+    if (typeof Tone !== 'undefined' && Tone.Transport.state === 'started') Tone.Transport.pause();
+  }
+
+  function resetMusic() {
+    chordIndex = 0;
+    if (audioBuilt) {
+      Tone.Transport.stop();
+      if (audioOn) Tone.Transport.start();
+    }
+  }
+
+  soundBtn.addEventListener('click', async function () {
+    if (typeof Tone === 'undefined') { soundBtn.textContent = 'Sound unavailable'; return; }
+    try { await Tone.start(); } catch (e) { soundBtn.textContent = 'Sound unavailable'; return; }
+    audioOn = !audioOn;
+    soundBtn.textContent = audioOn ? 'Sound: On' : 'Sound: Off';
+    if (audioOn) {
+      if (!audioBuilt) {
+        buildAudio();
+        try { await reverb.ready; } catch (e) {}
+      }
+      if (playing) startMusic();
+    } else {
+      stopMusic();
+    }
+  });
+
+  var startTs = null;
+  var pausedAt = 0;
+  var playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raf = null;
+
+  function formatTime(s) {
+    var m = Math.floor(s / 60);
+    var sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function render(elapsed) {
+    var clamped = Math.min(elapsed, totalDuration);
+
+    for (var i = 0; i < sceneEls.length; i++) {
+      var b = scenes[i];
+      var active = clamped >= b[0] && (clamped < b[1] || i === sceneEls.length - 1);
+      sceneEls[i].setAttribute('aria-hidden', active ? 'false' : 'true');
+      sceneEls[i].inert = !active;
+      sceneEls[i].classList.toggle('active', active);
+    }
+
+    for (var j = 0; j < flowNodes.length; j++) {
+      if (clamped >= flowRevealTimes[j]) {
+        flowNodes[j].classList.add('show');
+      } else {
+        flowNodes[j].classList.remove('show');
+      }
+    }
+
+    fill.style.width = (clamped / totalDuration * 100).toFixed(2) + '%';
+    timeLabel.textContent = formatTime(clamped);
+
+    if (elapsed >= totalDuration) {
+      playing = false;
+      playBtn.textContent = 'Play';
+      pausedAt = totalDuration;
+      if (audioOn) stopMusic();
+      return;
+    }
+  }
+
+  function tick(ts) {
+    if (!startTs) startTs = ts - pausedAt * 1000;
+    var elapsed = (ts - startTs) / 1000;
+    render(elapsed);
+    if (playing) {
+      raf = requestAnimationFrame(tick);
+    }
+  }
+
+  function play() {
+    if (pausedAt >= totalDuration) { pausedAt = 0; resetMusic(); }
+    playing = true;
+    playBtn.textContent = 'Pause';
+    startTs = null;
+    raf = requestAnimationFrame(tick);
+    if (audioOn) startMusic();
+  }
+
+  function pause() {
+    playing = false;
+    playBtn.textContent = 'Play';
+    if (raf) cancelAnimationFrame(raf);
+    // capture current elapsed as pausedAt
+    var current = parseFloat(fill.style.width) / 100 * totalDuration;
+    pausedAt = current;
+    if (audioOn) stopMusic();
+  }
+
+  playBtn.addEventListener('click', function () {
+    if (playing) { pause(); } else { play(); }
+  });
+
+  replayBtn.addEventListener('click', function () {
+    pausedAt = 0;
+    startTs = null;
+    resetMusic();
+    if (!playing) { play(); }
+  });
+
+  render(0);
+  playBtn.textContent = playing ? 'Pause' : 'Play';
+  if (playing) raf = requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
