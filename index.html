@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Franklyn Daufa: Applied AI &amp; Solutions Engineering</title>
+<meta name="description" content="Franklyn Daufa: enterprise solutions engineering, applied AI, and independent builds. Explore LLM Council and an AI anomaly-detection platform.">
+<link rel="canonical" href="https://daufa.github.io/">
+<meta name="theme-color" content="#f5f4ef">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daufa.github.io/">
+<meta property="og:title" content="Franklyn Daufa | Applied AI &amp; Solutions Engineering">
+<meta property="og:description" content="Enterprise customer ownership meets hands-on AI builds. Explore applied AI, agent orchestration, and industrial IoT projects.">
+<meta property="og:image" content="https://daufa.github.io/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Franklyn Daufa — Applied AI and Solutions Engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Franklyn Daufa | Applied AI &amp; Solutions Engineering">
+<meta name="twitter:description" content="Enterprise customer ownership meets hands-on AI builds.">
+<meta name="twitter:image" content="https://daufa.github.io/social-preview.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+</head>
+<body>
+<style>
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: #0B0E14; }
+a { text-decoration: none; }
+h1, h2, h3 { font-family: 'DM Sans', system-ui, sans-serif; margin: 0; }
+p { margin: 0; }
+
+.nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); background: rgba(11,14,20,.72); border-bottom: 1px solid #1B2130; }
+.nav-inner { max-width: 1120px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+.logo-mark { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .04em; border: 1px solid var(--accent); color: var(--accent); padding: 6px 10px; border-radius: 6px; }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { color: #9AA3B5; font-size: 14px; }
+.nav-links a:hover { color: #F3F1EA; }
+
+.hero { position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; }
+.hero-bg-grid { position: absolute; inset: -60px; background-image: radial-gradient(circle, rgba(255,255,255,.09) 1px, transparent 1px); background-size: 32px 32px; opacity: .55; pointer-events: none; transform: translate(0px, 0px); }
+.hero-spotlight { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; background: radial-gradient(650px circle at var(--spot-x, 50%) var(--spot-y, 40%), color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%); --spot-x: 50%; --spot-y: 40%; }
+.hero-scanline { position: absolute; left: -10%; right: -10%; top: -30%; height: 55%; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 30%, white) 45%, transparent); opacity: .35; animation: scan 8s ease-in-out infinite; pointer-events: none; }
+@keyframes scan { 0% { transform: translateY(-10%); } 50% { transform: translateY(170%); } 100% { transform: translateY(-10%); } }
+.hero-content { position: relative; z-index: 2; width: 100%; max-width: 960px; margin: 0 auto; padding: 150px 32px 110px; }
+
+.status-pill { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 10px; border: 1px solid #232A3B; border-radius: 999px; background: #10141F; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); color: var(--accent); animation: pulse 2.4s ease-out infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 currentColor; } 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+.status-text { font-size: 13px; color: #9AA3B5; }
+
+.eyebrow { font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-top: 30px; }
+.hero-name { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin-top: 14px; font-weight: 700; color: #F3F1EA; }
+.hero-lede { max-width: 620px; margin-top: 22px; font-size: 18px; line-height: 1.65; color: #C7CCDA; }
+.cta-row { display: flex; gap: 16px; margin-top: 38px; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; padding: 13px 26px; border-radius: 8px; background: var(--accent); color: #0B0E14; font-weight: 600; font-size: 15px; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-outline { display: inline-flex; align-items: center; padding: 13px 26px; border-radius: 8px; border: 1.5px solid var(--accent); color: var(--accent); font-weight: 600; font-size: 15px; background: transparent; }
+.btn-outline:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+.section { padding: 100px 32px; }
+.section-inner { max-width: 1120px; margin: 0 auto; }
+.section-head h2 { font-size: clamp(28px, 4vw, 38px); color: #F3F1EA; }
+.section-head p { color: #9AA3B5; margin-top: 10px; max-width: 640px; }
+
+.about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; margin-top: 44px; }
+.about-bio p { color: #C7CCDA; font-size: 16px; line-height: 1.75; margin-bottom: 18px; }
+.stat-card { padding: 18px 20px; border: 1px solid #232A3B; border-radius: 10px; background: #10141F; margin-bottom: 14px; }
+.stat-label { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #7C879C; margin-bottom: 6px; }
+.stat-value { font-family: 'DM Sans', sans-serif; font-size: 16px; color: #F3F1EA; }
+
+.projects-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; margin-top: 44px; }
+.project-card { padding: 26px; border: 1px solid #232A3B; border-radius: 14px; background: #10141F; display: flex; flex-direction: column; gap: 14px; transition: border-color .2s, transform .2s, box-shadow .2s; }
+.project-card:hover { border-color: var(--accent); box-shadow: 0 10px 28px -12px rgba(0,0,0,.55); transform: translateY(-3px); }
+.project-card h3 { font-size: 19px; color: #F3F1EA; }
+.project-card p { color: #9AA3B5; font-size: 14.5px; line-height: 1.6; }
+.project-kind { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #7C879C; }
+.project-summary { font-weight: 600; color: #F3F1EA; font-size: 15px; line-height: 1.5; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.project-footer { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
+.project-links { display: flex; gap: 14px; }
+.project-link { font-size: 13px; color: #7C879C; }
+.project-link:hover { color: var(--accent); }
+
+.contact-section { text-align: center; }
+.contact-section .section-head { max-width: 640px; margin: 0 auto; }
+.contact-row { display: flex; gap: 16px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+
+.footer { border-top: 1px solid #1B2130; padding: 30px 32px; text-align: center; color: #5B6478; font-size: 13px; }
+
+@media (max-width: 860px) {
+  .about-grid { grid-template-columns: 1fr; gap: 36px; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 13px; }
+  .hero-content { padding-top: 120px; }
+}
+
+:root { --paper:#f5f4ef; --ink:#242820; --muted:#656b60; --line:#d9ddd1; --lime:#d9f279; }
+html { scroll-behavior:smooth; scroll-padding-top:90px; }
+body { background:var(--paper); }
+.site-root { background:var(--paper)!important; color:var(--ink)!important; --accent:#415b28!important; }
+a { color:inherit; } a:focus-visible, summary:focus-visible { outline:3px solid #718a36; outline-offset:6px; }
+.nav { background:rgba(245,244,239,.92); border-color:var(--line); }
+.nav-inner,.section-inner { max-width:1240px; }
+.nav-inner { padding:22px 40px; }
+.logo-mark { color:var(--ink); border:0; padding:0; font-size:17px; letter-spacing:-.05em; }
+.logo-mark span { font-weight:400; color:var(--muted); letter-spacing:0; margin-left:12px; font-size:12px; }
+.nav-links a { color:var(--muted); font-size:13px; }.nav-links a:hover {color:var(--ink);}
+.hero { min-height:auto; border-bottom:1px solid var(--line); }
+.hero-bg-grid,.hero-spotlight,.hero-scanline { display:none; }
+.hero-content { max-width:1240px; padding:80px 40px 35px; }
+.status-pill { padding:0; background:none; border:0; }.status-dot { width:6px;height:6px; background:#597834; animation:none; }.status-text {font-size:12px;color:var(--muted);}
+.eyebrow { color:var(--muted); font-size:11px; margin-top:52px; letter-spacing:.12em; }
+.hero-name { font-size:clamp(48px,7.5vw,100px); line-height:1.02; font-weight:500; letter-spacing:-.065em; max-width:1050px; color:var(--ink); margin-top:18px; }
+.hero-name em { font-style:normal; color:#738356; }
+.hero-bottom { display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px;align-items:end; }
+.hero-lede { font-size:17px; line-height:1.65; color:var(--muted); margin:0; max-width:490px; }
+.cta-row { margin:0; justify-content:flex-end; gap:12px; }
+.btn-primary,.btn-outline { font-size:13px; padding:16px 22px; border-radius:3px; font-weight:500; gap:25px; }
+.btn-primary {background:var(--ink);color:var(--paper);}.btn-outline {border:1px solid #c7ccbd;color:var(--ink);}.btn-outline:hover {background:#e9ecdf;}
+.hero-meta { display:flex;justify-content:space-between;gap:20px; padding-top:58px; color:var(--muted); font-size:11px; letter-spacing:.04em; }
+.section { padding:84px 40px; }
+.section-head { display:flex;align-items:baseline;justify-content:space-between;gap:30px; }
+.section-head h2 { color:var(--ink); font-size:36px;font-weight:500;letter-spacing:-.045em; }.section-head p {color:var(--muted);font-size:13px;line-height:1.6;max-width:430px;margin:0;}
+.section-number {font-size:11px;color:var(--muted);display:block;margin-bottom:18px;letter-spacing:.1em;}
+.projects-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:38px 26px;margin-top:36px;}
+
+.project-slider-section { padding-bottom: 32px; }
+.slider-head { margin-bottom: 8px; }
+.slider { position: relative; margin-top: 28px; }
+.slider-track { position: relative; min-height: 74vh; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .7s ease; display: flex; align-items: center; padding: 48px 0; overflow-y: auto; }
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; width: 100%; }
+.slide-kind { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+.slide-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(34px, 6vw, 68px); line-height: 1.05; letter-spacing: -.02em; color: var(--ink); margin: 0 0 18px; }
+.slide-summary { font-size: 18px; font-weight: 600; color: var(--ink); line-height: 1.5; margin-bottom: 14px; max-width: 640px; }
+.slide-body { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 640px; margin-bottom: 22px; }
+.slide-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.slide-visual-col { display: flex; align-items: center; justify-content: center; height: 100%; }
+.slide-visual-col .project-visual { height: 340px; width: 100%; }
+.slide-feature { display: flex; flex-direction: column; gap: 22px; align-items: flex-start; }
+.slide-index-big { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: clamp(90px, 13vw, 200px); color: var(--line); line-height: 1; }
+.slide-links { display: flex; gap: 18px; }
+.slide-links a { font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+.slide-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+.slider-nav { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 24px; }
+.slide-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: transparent; font-size: 18px; line-height: 1; color: var(--ink); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.slide-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.slide-dots { display: flex; gap: 10px; }
+.dot { width: 22px; height: 22px; border-radius: 50%; border: 0; background: transparent; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--line); background: transparent; }
+.dot.active::after { background: var(--accent); border-color: var(--accent); }
+.play-pause-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; background: transparent; border: 1px solid var(--line); color: var(--muted); padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+.play-pause-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.bonus-project-section { padding: 40px 40px 60px; opacity: .8; }
+.bonus-project { max-width: 620px; }
+.bonus-project h3 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 26px; color: var(--ink); margin: 6px 0 10px; }
+.bonus-project .project-summary { font-size: 14px; }
+.bonus-project p { font-size: 13.5px; }
+.bonus-project .tag-row { margin-top: 12px; }
+
+@media (max-width: 860px) {
+  .slider-track { min-height: auto; border-top: 0; }
+  .slide { position: relative; display: none; opacity: 1; padding: 0 0 28px; }
+  .slide.active { display: flex; }
+  .slide-grid { grid-template-columns: 1fr; gap: 28px; }
+  .slide-visual-col .project-visual { height: 260px; }
+  .slide-index-big { font-size: clamp(60px, 22vw, 110px); }
+}
+.project-card {padding:0;border:0;border-radius:0;background:none;gap:13px;}.project-card:hover {transform:none;box-shadow:none;border:0;}
+.project-card h3 {color:var(--ink);font-size:24px;letter-spacing:-.04em;font-weight:500;}.project-card p {color:var(--muted);font-size:14px;line-height:1.7;}
+.project-kind {font-size:10px;letter-spacing:.1em;color:var(--muted);margin-top:8px;}.project-summary {color:var(--ink)!important;font-weight:400;}
+.project-footer {margin-top:6px;gap:18px;}.tag {border:0;border-radius:0;background:none;color:var(--muted);padding:0;font-size:11px;}.tag + .tag:before {content:' / ';color:#a3ab96;margin-right:8px;}.tag-row {gap:8px;}
+.project-visual {height:285px;overflow:hidden;border-radius:5px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
+.telemetry {background:#e3e9d9;color:#34472f;}.council {background:#272e28;color:#e6edda;}
+.visual-label {font-size:10px;letter-spacing:.13em;text-transform:uppercase;display:flex;justify-content:space-between;gap:12px;}
+.diagram-note {font-size:9px;opacity:.65;letter-spacing:.05em;}
+.telemetry svg {width:100%;height:145px;}.visual-foot {display:flex;justify-content:space-between;font-size:10px;}
+.council-flow {display:flex;align-items:center;justify-content:center;gap:16px;}.model-stack {display:flex;flex-direction:column;gap:9px;}.model-node {border:1px solid #65725d;padding:10px 14px;font-size:11px;border-radius:3px;}.coordinator {background:var(--lime);color:#27301e;padding:20px 14px;border-radius:3px;font-size:12px;}.flow-arrow {color:#a9bc8e;font-size:22px;}
+.project-card.compact {border-top:1px solid var(--line);padding-top:25px;}.compact h3 {font-size:22px;}
+.about-section {background:#ebede4;border-block:1px solid var(--line);}.about-grid {gap:90px;grid-template-columns:1.2fr 1fr;margin-top:35px;}.about-bio p {color:var(--muted);font-size:16px;line-height:1.8;}.about-bio p:first-child {font-size:22px;line-height:1.5;color:var(--ink);letter-spacing:-.02em;}
+.personal-highlight {margin-top:28px;padding-top:24px;border-top:1px solid var(--line);}
+.personal-highlight-label {font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.personal-highlight-body {font-size:15px!important;line-height:1.75!important;color:var(--muted);}
+.personal-highlight-body strong {color:var(--ink);font-weight:500;}
+.personal-note {font-style:italic;font-size:13px!important;color:var(--muted);margin-top:14px!important;}
+.stat-card {background:none;border:0;border-top:1px solid #cdd3c2;border-radius:0;padding:16px 0;margin:0;}.stat-label {color:var(--muted);font-size:10px;}.stat-value {color:var(--ink);font-size:14px;line-height:1.6;font-family:inherit;}
+.contact-section {text-align:left;padding-block:90px;}.contact-section .section-head {max-width:none;display:block;margin:0;}.contact-section h2 {font-size:clamp(44px,6vw,76px);max-width:780px;line-height:1.08;}.contact-section .section-head p {margin-top:24px;max-width:510px;font-size:15px;}.contact-row {justify-content:flex-start;margin-top:30px;}.footer {color:var(--muted);border-color:var(--line);display:flex;justify-content:space-between;text-align:left;max-width:1160px;margin:auto;padding:25px 0;font-size:11px;}
+@media(max-width:700px) { .nav-inner {padding:20px 22px;}.logo-mark span {display:none;}.hero-content {padding:52px 22px 26px;}.eyebrow {margin-top:38px;font-size:9px;}.hero-name {font-size:clamp(44px,10vw,68px);}.hero-bottom {grid-template-columns:1fr;gap:26px;}.cta-row {justify-content:flex-start;}.hero-meta {padding-top:40px;font-size:9px;}.section {padding:58px 22px;}.section-head {display:block;}.section-head p {margin-top:15px;}.projects-grid {grid-template-columns:1fr;gap:36px;}.project-visual {height:250px;padding:20px;}.about-grid {grid-template-columns:1fr;gap:24px;}.footer {margin:0 22px;gap:20px;}.model-node {padding:9px 10px;}.council-flow {gap:12px;} }
+@media(prefers-reduced-motion:reduce) {html {scroll-behavior:auto;} * {animation:none!important;transition:none!important;} }
+
+
+/* A field journal for applied intelligence. */
+.site-root {font-family:'DM Sans',system-ui,sans-serif!important;}
+h1,h2,h3,.stat-value {font-family:'DM Sans',system-ui,sans-serif;}
+.hero-name {font-weight:450;letter-spacing:-.07em;font-size:clamp(48px,7.3vw,96px);}
+.hero-name em {font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-style:italic;font-size:1.22em;letter-spacing:-.045em;line-height:1.03;}
+.eyebrow,.section-number,.project-kind,.visual-label,.hero-meta,.stat-label,.diagram-note,.tag,.edition {font-family:'IBM Plex Mono',monospace;}
+.nav-inner {position:relative;}.logo-mark {font-size:26px;font-weight:600;letter-spacing:-.02em;}.logo-mark:after {content:'.';color:#75884d;}.logo-mark span {font-size:12px;letter-spacing:-.02em;}
+.hero-content {padding-top:65px;}.eyebrow {margin-top:48px;display:flex;align-items:center;gap:15px;}.eyebrow:before {content:'';height:1px;width:40px;background:#889578;}
+.field-stamp {position:absolute;right:40px;top:61px;width:87px;height:87px;border:1px solid #b7c2a9;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(12deg);color:#687b50;font-family:'IBM Plex Mono',monospace;font-size:9px;text-align:center;line-height:1.7;letter-spacing:.1em;}
+.hero-meta {font-size:9px;}.hero-meta span:last-child {text-align:right;}
+.section-head h2 {font-family:'Instrument Serif',Georgia,serif;font-size:48px;letter-spacing:-.025em;line-height:1.05;}.section-number {font-size:10px;letter-spacing:.07em;line-height:1.5;}
+.contact-section h2 {font-family:'Instrument Serif',Georgia,serif;font-size:clamp(56px,7.6vw,98px);font-weight:400;letter-spacing:-.04em;}.contact-section {position:relative;}
+.project-visual {border-radius:2px;transition:transform .4s ease;}.project-card:hover .project-visual {transform:translateY(-4px);}
+.telemetry {background-color:#e4e8d9;background-image:linear-gradient(#7486540b 1px,transparent 1px),linear-gradient(90deg,#7486540b 1px,transparent 1px);background-size:20px 20px;}
+.telemetry svg {filter:drop-shadow(0px 6px 8px #526e3814);}
+.council {background:radial-gradient(ellipse at 80% 80%,#4b5840 0%,#272e28 65%);}
+.edition {font-size:9px;border-left:1px solid #b7c2a9;padding-left:15px;line-height:1.7;color:var(--muted);margin-left:auto;}
+.hero-bottom {grid-template-columns:1.15fr 1fr;}.btn-primary {background:#d9f279;color:#26311c;border:1px solid #c9df71;}.btn-primary:hover {background:#cce66a;filter:none;}.btn-outline {background:transparent;}
+.contact-section .btn-primary {background:var(--ink);border-color:var(--ink);color:var(--paper);}
+@media(max-width:700px) {.field-stamp {display:none;}.hero-name {font-size:clamp(42px,9.9vw,68px);}.hero-name em {font-size:1.17em;}.hero-bottom {grid-template-columns:1fr;}.hero-content {padding-top:44px;}.section-head h2 {font-size:40px;}.contact-section h2 {font-size:60px;}.hero-meta {font-size:8px;}.edition {display:none;}.status-text {font-size:10px;}}
+
+
+.skip-link {position:fixed;top:10px;left:16px;z-index:1000;transform:translateY(-160%);padding:12px 20px;background:#242820;color:#fff;font:14px 'DM Sans',sans-serif;}.skip-link:focus {transform:translateY(0);}
+.project-detail {border-top:1px solid var(--line);margin-top:8px;}.project-detail summary {cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;padding:15px 0;font-size:12px;font-weight:500;}.project-detail summary::-webkit-details-marker {display:none;}.project-detail summary span {font-size:20px;font-weight:400;transition:transform .2s;}.project-detail[open] summary span {transform:rotate(45deg);}.detail-content {padding:0 0 10px;}.detail-content p {margin-bottom:12px;font-size:13px;}.detail-content strong {color:var(--ink);font-weight:500;}.detail-status {border-left:2px solid #8ba461;padding-left:12px;}
+@media(min-width:701px) and (max-width:960px) {.hero-name {font-size:68px;}.hero-bottom {grid-template-columns:1fr;gap:24px;}.cta-row {justify-content:flex-start;}.field-stamp {width:70px;height:70px;font-size:7px;}.council-flow {gap:9px;}.model-node {font-size:9px;padding:8px;}.coordinator {font-size:11px;padding:16px 9px;}.visual-label {font-size:8px;}.visual-foot {font-size:8px;}.diagram-note {font-size:7px;}}
+@media(max-width:370px) {.hero-meta {flex-direction:column;gap:10px;}.hero-meta span:last-child {text-align:left;}.nav-links {gap:12px;}.model-node {font-size:9px;}.coordinator {font-size:11px;}.visual-label {font-size:8px;}.visual-foot {font-size:8px;}.diagram-note {font-size:7px;}}
+
+
+
+button:focus-visible { outline: 3px solid #718a36; outline-offset: 4px; }
+.slide-links { flex-wrap: wrap; align-items: center; }
+.slide-links a.github-cta { padding: 14px 20px; background: var(--ink); color: var(--paper); border-radius: 3px; border: 0; }
+.slide-links a.github-cta:hover { background: #415b28; }
+.slider-nav { flex-wrap: wrap; gap: 14px; }
+.slide-arrow { flex-shrink: 0; }
+.slider-track { display: grid; }
+.slide { position: relative; grid-area: 1 / 1; visibility: hidden; overflow: visible; }
+.slide.active { visibility: visible; }
+@media(max-width:860px) { .slide { display: none; } .slide.active { display: flex; } }
+@media(max-width:400px) { .slider-nav { gap: 8px; } .slide-dots { gap: 4px; } }
+</style>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="site-root" style="width: 100%; background: #0B0E14; color: #F3F1EA; font-family: 'DM Sans', system-ui, -apple-system, sans-serif; --accent: #415b28;">
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="logo-mark" href="#home" aria-label="Franklyn Daufa home">FD<span>Franklyn Daufa</span></a>
+      <div class="nav-links">
+        <a href="#projects">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+  <section id="home" class="hero">
+
+
+
+    <div class="hero-content">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span class="status-text">Available for Forward Deployed &amp; AI Solutions roles</span>
+      </div>
+      <h1 class="hero-name">Franklyn Daufa</h1>
+      <div class="hero-bottom">
+      <p class="hero-lede">I'm Franklyn. I combine 10 years in enterprise technical sales and industrial IoT with hands-on experience building and deploying AI systems.</p>
+      <div class="cta-row"><a href="#projects" class="btn-primary">View Projects</a><a href="mailto:franklynjdaufa@gmail.com" class="btn-outline">Get in Touch</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section project-slider-section">
+    <div class="section-inner">
+      <div class="section-head slider-head">
+        <h2>Selected Work</h2>
+        <p>A mix of personal projects and things I've built at work.</p>
+      </div>
+      <div class="slider">
+        <div class="slider-track">
+
+          <article class="slide active" data-index="0" aria-hidden="false">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Independent Project &nbsp;·&nbsp; 01 / 07</div>
+                <h3 class="slide-title">AI Anomaly Detection Platform</h3>
+                <p class="slide-summary">A multi-tenant platform that detects anomalies in gas distribution telemetry and uses an LLM to draft compliance notes and answer questions about the data, designed, built, and deployed solo, end to end.</p>
+                <p class="slide-body">FastAPI/Postgres backend, JWT multi-tenancy, an Anthropic API layer for compliance drafting and conversational data interrogation, an evaluation harness that caught and fixed a real scale-dependence defect, and a React frontend deployed on AWS App Runner.</p>
+                <div class="slide-tags"><span class="tag">Applied AI</span><span class="tag">AWS</span><span class="tag">Evaluation</span></div>
+              </div>
+              <div class="slide-visual-col">
+                <div class="project-visual telemetry" aria-label="Conceptual illustration of telemetry anomaly detection"><div class="visual-label"><span>Telemetry → insight</span><span>Platform</span></div><svg viewBox="0 0 500 145" fill="none" aria-hidden="true"><path d="M0 30H500M0 70H500M0 110H500" stroke="#c4ceb7"/><path d="M0 100L20 97L40 105L60 85L80 91L100 80L120 85L140 71L160 76L180 60L200 67L220 70L240 53L260 60L280 65L300 20L320 79L340 65L360 70L380 53L400 61L420 44L440 50L460 35L480 41L500 25" stroke="#526e38" stroke-width="2.5"/><circle cx="300" cy="20" r="8" fill="#d9f279" stroke="#526e38"/><path d="M300 35V135" stroke="#8a9d70" stroke-dasharray="3 4"/></svg><div class="visual-foot"><span>Detect. Investigate. Draft.</span><span class="diagram-note">CONCEPTUAL DIAGRAM</span></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide " data-index="1" aria-hidden="true">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Independent Project &nbsp;·&nbsp; 02 / 07</div>
+                <h3 class="slide-title">LLM Council</h3>
+                <p class="slide-summary">Multiple models reason independently, challenge one another, and negotiate a versioned final proposal.</p>
+                <p class="slide-body">Models review each other's answers, flag disagreements, and vote on a versioned proposal, and a revision invalidates earlier votes so the history stays honest. I also built a 20-fixture code-review benchmark comparing this against a single model working within the same budget: review quality is scored blind, cost and latency are measured separately. The benchmark is built; the comparison is still running, so there's no verdict yet.</p>
+                <div class="slide-tags"><span class="tag">Python</span><span class="tag">Multi-agent systems</span><span class="tag">LLM evaluation</span></div>
+              </div>
+              <div class="slide-visual-col">
+                <div class="project-visual council" aria-label="Conceptual diagram of independent model responses, deliberation, and a versioned proposal"><div class="visual-label"><span>Independent minds. Explicit agreement.</span><span>Council</span></div><div class="council-flow"><div class="model-stack"><span class="model-node">Independent response A</span><span class="model-node">Independent response B</span><span class="model-node">Cross-review &amp; objections</span></div><span class="flow-arrow" aria-hidden="true">→</span><div class="coordinator">Versioned<br>proposal</div></div><div class="visual-foot"><span>Accept · Conditions · Object</span><span class="diagram-note">CONCEPTUAL DIAGRAM</span></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide " data-index="2" aria-hidden="true">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Independent Project &nbsp;·&nbsp; 03 / 07</div>
+                <h3 class="slide-title">Agent Supervisor</h3>
+                <p class="slide-summary">A Python supervisor that coordinates Claude Code and Codex through bounded implementation and peer-review cycles.</p>
+                <p class="slide-body">Automates the handoff between two coding agents: one implements, the other reviews, with validated JSON messages, SHA-256 project fingerprints that invalidate a completion claim if the codebase changed since it was made, and atomic checkpoints with per-turn timeouts so a stuck run fails safely instead of hanging. Backed by an offline test suite, plus one live run where it caught and fixed a real bug in its own diagnostic-write path: implement, review, verify, done, no manual relay. Early days: that's one clean cycle, not a track record.</p>
+                <div class="slide-tags"><span class="tag">Python</span><span class="tag">CLI Orchestration</span><span class="tag">Testing</span></div>
+              </div>
+              <div class="slide-visual-col">
+                <div class="slide-feature">
+                  <div class="slide-index-big" aria-hidden="true">03</div>
+                  <div class="slide-links"><a href="https://github.com/Daufa/agent-supervisor" target="_blank" rel="noopener" class="github-cta" tabindex="-1">View on GitHub →</a><a href="https://claude.ai/artifact/JK7jsR9P2RpSXLxgN2QqD1" target="_blank" rel="noopener" tabindex="-1">Workflow demo</a></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide " data-index="3" aria-hidden="true">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Built at Romet &nbsp;·&nbsp; 04 / 07</div>
+                <h3 class="slide-title">Account Owner AI Digest</h3>
+                <p class="slide-summary">Daily AI-generated case digest that adds an urgency read the age-based rules alone can't provide, delivered automatically, no chatbot required.</p>
+                <p class="slide-body">Two Copilot Studio prompts wired into a scheduled Power Automate flow: one reads a flagged case's notes and calls out urgency signals a pure age-based triage system misses (deadlines, frustration, repeated failures), the other turns each owner's flagged cases into a short, friendly digest capped at 150 words. The flow filters the triage workbook down to Overdue and Critical cases, skips owners with nothing flagged so there's no noise, and posts straight to Teams or email every morning without anyone asking it to.</p>
+                <div class="slide-tags"><span class="tag">Copilot Studio</span><span class="tag">Power Automate</span><span class="tag">Prompt Engineering</span></div>
+              </div>
+              <div class="slide-visual-col"><div class="slide-index-big" aria-hidden="true">04</div></div>
+            </div>
+          </article>
+
+          <article class="slide " data-index="4" aria-hidden="true">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Built at Romet &nbsp;·&nbsp; 05 / 07</div>
+                <h3 class="slide-title">Enterprise Knowledge Agent</h3>
+                <p class="slide-summary">AI knowledge agent that answers questions for customers on the public site and for staff across Microsoft 365.</p>
+                <p class="slide-body">Built in Microsoft Copilot Studio and deployed in two places: publicly for customer self-serve questions, and internally across Microsoft 365 for staff.</p>
+                <div class="slide-tags"><span class="tag">Agents</span><span class="tag">Copilot Studio</span></div>
+              </div>
+              <div class="slide-visual-col"><div class="slide-index-big" aria-hidden="true">05</div></div>
+            </div>
+          </article>
+
+          <article class="slide " data-index="5" aria-hidden="true">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Built at Romet &nbsp;·&nbsp; 06 / 07</div>
+                <h3 class="slide-title">Quoting Agent</h3>
+                <p class="slide-summary">Cut quote-preparation time by roughly 48 hours per cycle.</p>
+                <p class="slide-body">Built in Microsoft Copilot Studio to structure and accelerate the proposal-drafting workflow.</p>
+                <div class="slide-tags"><span class="tag">Automation</span><span class="tag">Copilot Studio</span></div>
+              </div>
+              <div class="slide-visual-col"><div class="slide-index-big" aria-hidden="true">06</div></div>
+            </div>
+          </article>
+
+          <article class="slide " data-index="6" aria-hidden="true">
+            <div class="slide-grid">
+              <div>
+                <div class="slide-kind">Independent Project &nbsp;·&nbsp; 07 / 07</div>
+                <h3 class="slide-title">JustJollof</h3>
+                <p class="slide-summary">An independent restaurant I built from the ground up.</p>
+                <p class="slide-body">Grew it from a $5K start to about $100K in revenue in under a year. Ran kitchen, service, and delivery across five channels at once (UberEats, DoorDash, SkipTheDishes, walk-in, and catering) with a team of three. Built the ordering website and ran the POS myself. Wound it down after relocating.</p>
+                <div class="slide-tags"><span class="tag">Ownership</span><span class="tag">Operations</span><span class="tag">Web</span></div>
+              </div>
+              <div class="slide-visual-col"><div class="slide-index-big" aria-hidden="true">07</div></div>
+            </div>
+          </article>
+
+        </div>
+        <div class="slider-nav">
+          <button class="slide-arrow" id="prevBtn" aria-label="Previous project">‹</button>
+          <div class="slide-dots">
+            <button class="dot active" data-index="0" aria-label="Go to project 1"></button>
+            <button class="dot " data-index="1" aria-label="Go to project 2"></button>
+            <button class="dot " data-index="2" aria-label="Go to project 3"></button>
+            <button class="dot " data-index="3" aria-label="Go to project 4"></button>
+            <button class="dot " data-index="4" aria-label="Go to project 5"></button>
+            <button class="dot " data-index="5" aria-label="Go to project 6"></button>
+            <button class="dot " data-index="6" aria-label="Go to project 7"></button>
+          </div>
+          <button class="slide-arrow" id="nextBtn" aria-label="Next project">›</button>
+          <button class="play-pause-btn" aria-label="Pause" id="playPauseBtn">Pause</button>
+        </div>
+        <div class="sr-only" aria-live="polite" id="slideAnnounce">Showing project 1 of 7: AI Anomaly Detection Platform</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section about-section">
+    <div class="section-inner">
+      <div class="section-head">
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-bio">
+          <p>I've spent 10 years in enterprise technical sales and industrial IoT, leading technical discovery, solution architecture, and enterprise PoCs for cloud-based gas utility solutions, taking customers from evaluation through pilot and production across operations, engineering, IT, security, and procurement.</p>
+          <p>Alongside that, I independently designed, built, and deployed a multi-tenant, LLM-integrated anomaly-detection platform on AWS, backend through frontend, including an evaluation harness and AI-drafted compliance output.</p>
+          <p>I'm now looking to bring both halves (customer ownership and hands-on production build work) into a Forward Deployed or AI Solutions Engineering role.</p>
+          <div class="personal-highlight">
+            <div class="personal-highlight-label">Before this, I built something else</div>
+            <p class="personal-highlight-body"><strong>JustJollof</strong>: an independent restaurant I ran before any of this. It's one of the projects above.</p>
+          </div>
+          <p class="personal-note">Also: I play drums (there's an album from 2017 to prove it), used to play semi-professional soccer, and support Manchester United, who are currently a bit of a laughing stock in the football world. Still watching every match.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-label">Commercial impact at Romet</div>
+            <div class="stat-value"><strong>121% of quota</strong> · Major North American utilities<br>Enbridge Gas, ATCO Gas, Consumers Energy and DTE Energy.<br>Joined Romet at ~$30M revenue and contributed through its growth to ~$104M.</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Background</div>
+            <div class="stat-value">10 years in enterprise technical sales &amp; industrial IoT (Romet, Husky Injection Molding, Magna)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Education</div>
+            <div class="stat-value">B.Eng, Mechatronics Engineering, McMaster University, 2016</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Certifications</div>
+            <div class="stat-value">Stanford (Supervised ML) · Google Cloud (Generative AI) · Ivey (Finance for Non-Finance, 2021)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Based in</div>
+            <div class="stat-value">Mississauga, ON, Canada</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Speaking</div>
+            <div class="stat-value">Canadian Gas Association: presenting "SDO301: AMR/AMI" at GMRS 2026 (Toronto); previously co-presented a CGA gas-measurement workshop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section contact-section">
+    <div class="section-inner">
+      <div class="section-head">
+        <h2>Let's talk</h2>
+        <p>Open to Forward Deployed and AI Solutions Engineering roles. Happy to talk shop about applied AI, agent evaluation, or enterprise IoT.</p>
+      </div>
+      <div class="contact-row">
+        <a href="mailto:franklynjdaufa@gmail.com" class="btn-primary">Email Me</a>
+        <a href="https://www.linkedin.com/in/franklyn-daufa-9723278b" class="btn-outline" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Daufa" class="btn-outline" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  </main>
+  <footer class="footer"><span>© 2026 Franklyn Daufa</span></footer>
+
+</div>
+
+
+
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var playPauseBtn = document.getElementById('playPauseBtn');
+  var announce = document.getElementById('slideAnnounce');
+  var supervisorLinks = document.querySelectorAll('.slide[data-index="2"] .slide-links a');
+  var total = slides.length;
+  var current = 0;
+  var timer = null;
+  var autoplayOn = true;
+  var slider = document.querySelector('.slider');
+  var hasEnteredView = false;
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  var names = [
+    'AI Anomaly Detection Platform',
+    'LLM Council',
+    'Agent Supervisor',
+    'Account Owner AI Digest',
+    'Enterprise Knowledge Agent',
+    'Quoting Agent',
+    'JustJollof'
+  ];
+
+  function show(i) {
+    current = ((i % total) + total) % total;
+    slides.forEach(function (el) {
+      var idx = parseInt(el.getAttribute('data-index'), 10);
+      var isActive = idx === current;
+      el.classList.toggle('active', isActive);
+      el.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      el.inert = !isActive;
+    });
+    dots.forEach(function (el) {
+      var selected = parseInt(el.getAttribute('data-index'), 10) === current;
+      el.classList.toggle('active', selected);
+      el.setAttribute('aria-current', selected ? 'true' : 'false');
+    });
+    supervisorLinks.forEach(function (el) {
+      el.setAttribute('tabindex', current === 2 ? '0' : '-1');
+    });
+    if (announce) announce.textContent = 'Showing project ' + (current + 1) + ' of ' + total + ': ' + names[current];
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (document.hidden) return;
+    timer = setInterval(function () { show(current + 1); }, 6500);
+  }
+  function stopAutoplay() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+  function setPlayPauseLabel() {
+    if (playPauseBtn) {
+      playPauseBtn.textContent = autoplayOn ? 'Pause' : 'Play';
+      playPauseBtn.setAttribute('aria-label', autoplayOn ? 'Pause' : 'Play');
+    }
+  }
+
+  prevBtn.addEventListener('click', function () { stopAutoplay(); autoplayOn = false; setPlayPauseLabel(); show(current - 1); });
+  nextBtn.addEventListener('click', function () { stopAutoplay(); autoplayOn = false; setPlayPauseLabel(); show(current + 1); });
+  dots.forEach(function (el) {
+    el.addEventListener('click', function () {
+      stopAutoplay();
+      autoplayOn = false;
+      setPlayPauseLabel();
+      show(parseInt(el.getAttribute('data-index'), 10));
+    });
+  });
+  if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', function () {
+      if (autoplayOn) {
+        stopAutoplay();
+        autoplayOn = false;
+      } else {
+        autoplayOn = true;
+        hasEnteredView = true;
+        startAutoplay();
+      }
+      setPlayPauseLabel();
+    });
+  }
+
+  slider.addEventListener('focusin', function (event) {
+    if (event.target === playPauseBtn) return;
+    stopAutoplay(); autoplayOn = false; setPlayPauseLabel();
+  });
+  slider.addEventListener('keydown', function (event) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault(); stopAutoplay(); autoplayOn = false; setPlayPauseLabel();
+    show(current + (event.key === 'ArrowRight' ? 1 : -1));
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stopAutoplay();
+    else if (autoplayOn && hasEnteredView) startAutoplay();
+  });
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', function (event) {
+    reduceMotion = event.matches;
+    if (reduceMotion) { stopAutoplay(); autoplayOn = false; setPlayPauseLabel(); }
+  });
+  show(0);
+
+  if (reduceMotion) {
+    autoplayOn = false;
+    setPlayPauseLabel();
+  } else {
+    var track = document.querySelector('.slider-track');
+    if (track && typeof IntersectionObserver !== 'undefined') {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !hasEnteredView) {
+            hasEnteredView = true;
+            if (autoplayOn) startAutoplay();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      observer.observe(track);
+    } else {
+      startAutoplay();
+    }
+  }
+})();
+</script>
+</body>
+</html>
